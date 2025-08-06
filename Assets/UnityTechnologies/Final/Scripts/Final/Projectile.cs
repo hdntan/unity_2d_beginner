@@ -3,7 +3,7 @@
 /// <summary>
 /// Handle the projectile launched by the player to fix the robots.
 /// </summary>
-public class Projectile : MonoBehaviour
+public class Projectile1 : MonoBehaviour
 {
     Rigidbody2D rigidbody2d;
     

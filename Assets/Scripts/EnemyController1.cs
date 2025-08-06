@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyController1 : MonoBehaviour
 {
     [SerializeField] protected Rigidbody2D rigidbody2d;
+    [SerializeField] protected Animator animator;
     public float speed;
     public bool vertical;
 
@@ -13,6 +14,7 @@ public class EnemyController1 : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        animator = GetComponent<Animator>();
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;
 
@@ -36,10 +38,14 @@ public class EnemyController1 : MonoBehaviour
         if (vertical)
         {
             position.y += speed * direction * Time.fixedDeltaTime;
+            animator.SetFloat("MoveX", 0);
+            animator.SetFloat("MoveY", direction);
         }
         else
         {
             position.x += speed * direction * Time.fixedDeltaTime;
+            animator.SetFloat("MoveX", direction);
+            animator.SetFloat("MoveY", 0);
         }
         rigidbody2d.MovePosition(position);
     }
