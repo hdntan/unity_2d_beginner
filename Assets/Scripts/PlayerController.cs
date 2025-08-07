@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public InputAction MoveAction;
+    public InputAction talkAction;
     [SerializeField] protected Rigidbody2D rigidbody2d;
 
     [SerializeField] protected Vector2 move;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
         // Application.targetFrameRate = 10;
         animator = GetComponent<Animator>();
         MoveAction.Enable();
+        talkAction.Enable();
         rigidbody2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
     }
@@ -58,11 +60,15 @@ public class PlayerController : MonoBehaviour
                 isInvincible = false;
             }
         }
-        
-        if(Input.GetKeyDown(KeyCode.C))
-       {
-          Launch();
-       }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Launch();
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            FindFriend();
+        }
 
     }
 
@@ -85,7 +91,7 @@ public class PlayerController : MonoBehaviour
             damageCooldown = timeInvincible;
             animator.SetTrigger("Hit");
         }
-        
+
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         UIHandler1.instance.SetHealthValue(currentHealth / (float)maxHealth);
     }
@@ -96,6 +102,20 @@ public class PlayerController : MonoBehaviour
         Projectile projectile = projectileObject.GetComponent<Projectile>();
         projectile.Launch(moveDirection, 300);
         animator.SetTrigger("Launch");
-  }
+    }
+
+    void FindFriend()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, moveDirection, 1.5f, LayerMask.GetMask("NPC"));
+        if (hit.collider != null)
+        {
+            NonPlayerCharacter1 character = hit.collider.GetComponent<NonPlayerCharacter1>();
+            if (character != null)
+            {
+                UIHandler1.instance.DisplayDialogue();
+            }
+        }
+
+    }
 }
 

@@ -10,6 +10,7 @@ public class EnemyController1 : MonoBehaviour
     public float changeTime = 3.0f;
     float timer;
     int direction = 1;
+    bool broken = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +35,10 @@ public class EnemyController1 : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!broken)
+        {
+            return;
+        }
         Vector2 position = rigidbody2d.position;
         if (vertical)
         {
@@ -53,11 +58,20 @@ public class EnemyController1 : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         PlayerController player = other.gameObject.GetComponent<PlayerController>();
-     if (player != null)
-       {
-           player.ChangeHealth(-1);
-       }
+        if (player != null)
+        {
+            player.ChangeHealth(-1);
+        }
 
+        
+
+    }
+
+    public void Fix()
+    {
+        broken = false;
+        rigidbody2d.simulated = false;
+       animator.SetTrigger("Fixed");
    }
 
 
