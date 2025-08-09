@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     [SerializeField] Vector2 moveDirection = new Vector2(1, 0);
     public GameObject projectilePrefab;
+    // Khai báo biến AudioSource
+    private AudioSource audioSource;
+
     public int CurrentHealth
     {
         get { return currentHealth; }
@@ -32,10 +35,12 @@ public class PlayerController : MonoBehaviour
         //         QualitySettings.vSyncCount = 0;
         // Application.targetFrameRate = 10;
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         MoveAction.Enable();
         talkAction.Enable();
         rigidbody2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
+
     }
 
     // Update is called once per frame
@@ -116,6 +121,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+    
+       public void PlaySound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
     }
 }
 

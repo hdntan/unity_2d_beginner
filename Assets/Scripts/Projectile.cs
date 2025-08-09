@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class Projectile : MonoBehaviour
 {
     Rigidbody2D rigidbody2d;
+    
+    [SerializeField] private AudioClip fixedSound;
     void Awake()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -35,6 +37,7 @@ if (transform.position.magnitude > 100.0f)
         if (enemy != null)
         {
             enemy.Fix();
+            enemy.PlaySound(fixedSound);
         }
 
         Destroy(gameObject);

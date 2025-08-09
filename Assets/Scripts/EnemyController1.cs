@@ -4,6 +4,8 @@ public class EnemyController1 : MonoBehaviour
 {
     [SerializeField] protected Rigidbody2D rigidbody2d;
     [SerializeField] protected Animator animator;
+    [SerializeField] protected AudioSource audioSource;
+    public ParticleSystem smokeEffect;
     public float speed;
     public bool vertical;
 
@@ -15,6 +17,7 @@ public class EnemyController1 : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;
@@ -63,7 +66,7 @@ public class EnemyController1 : MonoBehaviour
             player.ChangeHealth(-1);
         }
 
-        
+
 
     }
 
@@ -71,8 +74,16 @@ public class EnemyController1 : MonoBehaviour
     {
         broken = false;
         rigidbody2d.simulated = false;
-       animator.SetTrigger("Fixed");
-   }
+        audioSource.Stop();
+        smokeEffect.Stop();
+        animator.SetTrigger("Fixed");
+    }
+   
+       public void PlaySound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+    }
+
 
 
 }
